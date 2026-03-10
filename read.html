@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Annual Resource Report 2025 — DocVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1a1a;
+      --paper: #f5f2ec;
+      --cream: #ede9e0;
+      --accent: #c0392b;
+      --muted: #7a7469;
+      --border: #d8d3c8;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: #aaa; text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+    .nav-actions { display: flex; gap: 1rem; align-items: center; }
+    .nav-btn {
+      padding: 0.35rem 1rem;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+    }
+    .nav-btn-outline {
+      background: transparent;
+      color: #ccc;
+      border: 1px solid #444;
+    }
+    .nav-btn-outline:hover { border-color: #888; color: var(--white); }
+    .nav-btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    /* ── DOC META BAR ── */
+    .doc-meta-bar {
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2.5rem;
+      display: flex; align-items: center; gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      font-size: 0.8rem; color: var(--muted);
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .meta-sep { color: var(--border); }
+    .progress-bar {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .progress-track {
+      width: 120px; height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 0;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem;
+      align-items: start;
+    }
+
+    /* ── ARTICLE ── */
+    .article {
+      max-width: 680px;
+      padding-right: 3rem;
+    }
+    .article-tag {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .article h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .article-byline {
+      color: var(--muted); font-size: 0.875rem;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .article-body { line-height: 1.8; }
+    .article-body p { margin-bottom: 1.25rem; font-size: 1rem; font-weight: 300; }
+    .article-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .article-body h3 {
+      font-size: 1rem; font-weight: 600;
+      margin-top: 1.75rem; margin-bottom: 0.75rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .article-body ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .article-body li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem; font-weight: 300;
+    }
+    .article-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 2rem 0;
+      background: var(--cream);
+      border-radius: 0 2px 2px 0;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+    .data-callout {
+      background: var(--ink); color: var(--white);
+      padding: 1.5rem;
+      border-radius: 2px;
+      margin: 2rem 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .data-callout .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--white);
+    }
+    .data-callout .lbl {
+      font-size: 0.75rem; color: #888;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+    }
+    .article-body hr {
+      border: none; border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* ── SIDEBAR TOC ── */
+    .doc-sidebar {
+      position: sticky;
+      top: 80px;
+    }
+    .toc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .toc-title {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 0.1rem; }
+    .toc-list a {
+      display: block;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.15s;
+    }
+    .toc-list a:hover { background: var(--cream); color: var(--ink); }
+    .toc-list a.active { color: var(--accent); font-weight: 500; }
+
+    .pdf-cta {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .pdf-cta p {
+      font-size: 0.8rem; color: var(--muted);
+      margin-bottom: 1rem; line-height: 1.5;
+    }
+    .btn-full {
+      display: block; width: 100%;
+      padding: 0.7rem;
+      background: var(--ink); color: var(--white);
+      text-decoration: none;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn-full:hover { background: #333; }
+    .btn-full-outline {
+      display: block; width: 100%;
+      padding: 0.7rem;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .btn-full-outline:hover { border-color: var(--ink); }
+
+    /* ── RELATED ── */
+    .related-section {
+      border-top: 1px solid var(--border);
+      padding-top: 2.5rem;
+      margin-top: 2.5rem;
+    }
+    .related-title {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.25rem;
+    }
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .related-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+      transition: border-color 0.2s;
+    }
+    .related-card:hover { border-color: #aaa; }
+    .related-card-title { font-size: 0.875rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .related-card-meta { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.25rem; }
+      .doc-meta-bar { padding: 0.75rem 1.25rem; }
+      .page-wrap { grid-template-columns: 1fr; padding: 2rem 1.25rem; }
+      .article { padding-right: 0; }
+      .doc-sidebar { display: none; }
+      .data-callout { grid-template-columns: 1fr; gap: 1rem; }
+      .related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">Doc<span>Vault</span></a>
+  <a href="index.html" class="nav-back">← Back to Library</a>
+  <div class="nav-actions">
+    <a href="#" class="nav-btn nav-btn-outline">⬇ Download PDF</a>
+    <a href="#" class="nav-btn nav-btn-primary">Share</a>
+  </div>
+</nav>
+
+<!-- META BAR -->
+<div class="doc-meta-bar">
+  <span class="meta-item">📂 Research &amp; Reports</span>
+  <span class="meta-sep">|</span>
+  <span class="meta-item">📅 January 2025</span>
+  <span class="meta-sep">|</span>
+  <span class="meta-item">⏱ 8 min read</span>
+  <span class="meta-sep">|</span>
+  <span class="meta-item">📄 Also available as PDF (2.4 MB)</span>
+  <div class="progress-bar">
+    <span id="progress-pct">0%</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="page-wrap">
+  <article class="article">
+    <div class="article-tag">Annual Report · 2025</div>
+    <h1>Annual Resource Report 2025</h1>
+    <div class="article-byline">
+      Published by the DocVault Editorial Team · Last updated March 2025
+    </div>
+
+    <div class="article-body">
+
+      <p>This report presents an overview of the year's most significant developments, data trends, and community-driven insights. It is intended as a free, accessible reference document for anyone who needs a clear and organized summary of the year's key findings.</p>
+
+      <p>All data referenced in this document has been compiled from publicly available sources. Where estimates are used, methodology notes are included in the appendix available in the downloadable PDF version.</p>
+
+      <div class="data-callout">
+        <div>
+          <div class="num">34</div>
+          <div class="lbl">Documents published</div>
+        </div>
+        <div>
+          <div class="num">12k</div>
+          <div class="lbl">Downloads this year</div>
+        </div>
+        <div>
+          <div class="num">6</div>
+          <div class="lbl">Resource categories</div>
+        </div>
+      </div>
+
+      <h2 id="overview">Overview & Key Findings</h2>
+
+      <p>The past year saw a marked increase in demand for plain-language, accessible documentation across all categories. The most-accessed resources were introductory guides and how-to documents — reflecting a growing need for entry-level reference material that is free from jargon.</p>
+
+      <blockquote>
+        "The single most impactful thing an organization can do is make its knowledge freely and clearly available. Everything else builds on that foundation."
+      </blockquote>
+
+      <p>Documents in the Research &amp; Reports category saw the highest average read time (11 minutes), while How-To Guides had the highest download volume overall. This suggests users approach these two categories with different intentions — deep reading vs. quick reference.</p>
+
+      <h2 id="trends">Trends by Category</h2>
+
+      <h3>Getting Started</h3>
+      <p>Introductory documents remained the most-visited section, with new visitors accounting for 68% of traffic. The Welcome Guide alone was viewed over 2,400 times since its publication in February.</p>
+
+      <h3>Research & Reports</h3>
+      <p>Six new reports were published this year, covering a range of topics including community impact, industry analysis, and a five-year comparative overview. These documents average 3.2 MB in file size and are among the most shared via external links.</p>
+
+      <ul>
+        <li>Q3 Industry Analysis — most downloaded single document (1,840 downloads)</li>
+        <li>Community Impact Study — highest external share rate</li>
+        <li>5-Year Comparative Overview — longest average reading time</li>
+      </ul>
+
+      <h3>How-To Guides</h3>
+      <p>The how-to section grew from 4 to 8 documents this year. The addition of HTML read-online versions for three of these guides contributed to a 40% increase in engagement — confirming that in-browser reading reduces friction significantly for casual users.</p>
+
+      <hr />
+
+      <h2 id="recommendations">Recommendations for 2026</h2>
+
+      <p>Based on usage data and user feedback collected via the contact form, the following priorities are recommended for the coming year:</p>
+
+      <ul>
+        <li>Convert the remaining 10 PDF-only documents to HTML read-online format</li>
+        <li>Add a search-within-document feature for longer reports</li>
+        <li>Introduce a printable one-page summary for each report</li>
+        <li>Expand the Forms &amp; Templates category based on user requests</li>
+      </ul>
+
+      <h2 id="conclusion">Conclusion</h2>
+
+      <p>This library exists to make good information accessible without barriers. The data from 2025 confirms that free, well-organized, clearly written documents are consistently valuable — regardless of topic or format.</p>
+
+      <p>The full dataset, methodology notes, and appendix are available in the downloadable PDF version of this report. All documents on this site remain free to read, download, and share.</p>
+
+    </div>
+
+    <!-- RELATED -->
+    <div class="related-section">
+      <div class="related-title">Related Documents</div>
+      <div class="related-grid">
+        <a href="#" class="related-card">
+          <div class="related-card-title">Q3 2025 Industry Analysis Report</div>
+          <div class="related-card-meta">PDF · 3.4 MB · Research & Reports</div>
+        </a>
+        <a href="#" class="related-card">
+          <div class="related-card-title">Field Study: Community Impact 2024</div>
+          <div class="related-card-meta">PDF · 2.1 MB · Research & Reports</div>
+        </a>
+        <a href="#" class="related-card">
+          <div class="related-card-title">Quick Start Checklist 2025</div>
+          <div class="related-card-meta">PDF · 245 KB · Getting Started</div>
+        </a>
+        <a href="#" class="related-card">
+          <div class="related-card-title">How to Submit Your Documents</div>
+          <div class="related-card-meta">Online · 4 min read · How-To Guides</div>
+        </a>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="doc-sidebar">
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ul class="toc-list">
+        <li><a href="#overview" class="active">Overview & Key Findings</a></li>
+        <li><a href="#trends">Trends by Category</a></li>
+        <li><a href="#recommendations">Recommendations for 2026</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </div>
+    <div class="pdf-cta">
+      <p>Want the full version with appendix and methodology notes?</p>
+      <a href="#" class="btn-full">⬇ Download PDF</a>
+      <a href="index.html" class="btn-full-outline">← All Documents</a>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+  // Reading progress
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const pct = Math.round((scrollTop / scrollHeight) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+  });
+
+  // TOC active highlight
+  const sections = document.querySelectorAll('h2[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    tocLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
