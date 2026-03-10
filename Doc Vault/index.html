@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocVault — Resource Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1a1a;
+      --paper: #f5f2ec;
+      --cream: #ede9e0;
+      --accent: #c0392b;
+      --muted: #7a7469;
+      --border: #d8d3c8;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: #ccc; text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--accent); color: var(--white) !important;
+      padding: 0.4rem 1rem; border-radius: 2px;
+    }
+    .nav-cta:hover { background: #a93226; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--ink);
+      color: var(--white);
+      padding: 5rem 2.5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      border-bottom: 3px solid var(--accent);
+    }
+    .hero-label {
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .hero p {
+      color: #aaa; font-size: 1rem;
+      font-weight: 300; max-width: 420px;
+      margin-bottom: 2rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.75rem; border-radius: 2px;
+      font-size: 0.875rem; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer;
+      border: none; display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: var(--white); }
+    .btn-primary:hover { background: #a93226; }
+    .btn-outline { background: transparent; color: var(--white); border: 1px solid #555; }
+    .btn-outline:hover { border-color: var(--white); }
+
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .stat {
+      border: 1px solid #333;
+      padding: 1.5rem;
+      border-radius: 2px;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.25rem; color: var(--white);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem; color: #777;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-top: 0.4rem;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-bar {
+      background: var(--cream);
+      padding: 1.5rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 1rem; align-items: center;
+    }
+    .search-wrap {
+      position: relative; flex: 1; max-width: 480px;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.65rem 1rem 0.65rem 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--white);
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--accent); }
+    .search-icon {
+      position: absolute; left: 0.75rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); font-size: 1rem;
+    }
+    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-tab {
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      background: var(--white);
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .filter-tab:hover, .filter-tab.active {
+      background: var(--ink); color: var(--white); border-color: var(--ink);
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem; }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { }
+    .sidebar-section { margin-bottom: 2rem; }
+    .sidebar-title {
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-list { list-style: none; }
+    .sidebar-list li { margin-bottom: 0.1rem; }
+    .sidebar-list a {
+      display: flex; justify-content: space-between;
+      align-items: center;
+      padding: 0.45rem 0.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      color: var(--ink);
+      transition: background 0.15s;
+    }
+    .sidebar-list a:hover { background: var(--cream); }
+    .sidebar-list a.active { background: var(--cream); font-weight: 500; color: var(--accent); }
+    .sidebar-count {
+      font-size: 0.75rem; color: var(--muted);
+      background: var(--cream); padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+    }
+
+    /* ── DOCUMENT GRID ── */
+    .section-header {
+      display: flex; justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+    }
+    .section-count { font-size: 0.85rem; color: var(--muted); }
+
+    .category-block { margin-bottom: 3rem; }
+    .category-label {
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .category-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .doc-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex; flex-direction: column;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      transition: height 0.2s;
+    }
+    .doc-card:hover { border-color: #bbb; box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .doc-card:hover::before { height: 100%; }
+
+    .doc-icon {
+      width: 36px; height: 36px;
+      background: #f0ece3;
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      margin-bottom: 0.85rem;
+    }
+    .doc-type-pdf .doc-icon { background: #fde8e6; }
+    .doc-type-html .doc-icon { background: #e6f0fd; }
+
+    .doc-title {
+      font-weight: 500; font-size: 0.9rem;
+      line-height: 1.35; margin-bottom: 0.5rem;
+      flex: 1;
+    }
+    .doc-meta {
+      display: flex; justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+    .doc-size { font-size: 0.75rem; color: var(--muted); }
+    .doc-badge {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 2px;
+    }
+    .badge-pdf { background: #fde8e6; color: #c0392b; }
+    .badge-html { background: #e6f0fd; color: #2471a3; }
+    .badge-new { background: #e9f7ef; color: #1e8449; }
+
+    /* ── FEATURED DOC ── */
+    .featured-doc {
+      background: var(--ink); color: var(--white);
+      border-radius: 3px;
+      padding: 1.75rem;
+      grid-column: span 2;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 1.5rem; align-items: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .featured-doc:hover { opacity: 0.92; }
+    .featured-badge {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .featured-doc h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .featured-doc p { font-size: 0.85rem; color: #888; }
+    .featured-arrow {
+      width: 44px; height: 44px;
+      border: 1px solid #444;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    /* ── MERCH STRIP ── */
+    .merch-strip {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .merch-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; margin-bottom: 0.3rem;
+    }
+    .merch-text p { font-size: 0.875rem; color: var(--muted); }
+    .merch-btns { display: flex; gap: 0.75rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: #888;
+      padding: 2rem 2.5rem;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+    footer a { color: #666; text-decoration: none; }
+    footer a:hover { color: var(--white); }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      color: var(--white); font-size: 1rem;
+    }
+    .footer-brand span { color: var(--accent); }
+    .footer-links { display: flex; gap: 1.5rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; padding: 3rem 1.25rem; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+      .main-grid { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .search-bar { flex-direction: column; align-items: stretch; padding: 1rem 1.25rem; }
+      .container { padding: 0 1.25rem; }
+      .merch-strip { padding: 1.5rem 1.25rem; }
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .featured-doc { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">Doc<span>Vault</span></a>
+  <ul class="nav-links">
+    <li><a href="#">Documents</a></li>
+    <li><a href="read.html">Read Online</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#merch" class="nav-cta">Shop →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-label">Public Resource Library</div>
+    <h1>Knowledge, organized.<br>Free to access.</h1>
+    <p>A curated collection of guides, reports, and reference materials — readable online or downloadable as PDFs.</p>
+    <div class="hero-btns">
+      <a href="#documents" class="btn btn-primary">Browse Documents</a>
+      <a href="read.html" class="btn btn-outline">Read Online</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-number">34</div>
+      <div class="stat-label">Documents</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">6</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">Free</div>
+      <div class="stat-label">Always</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH + FILTERS -->
+<div class="search-bar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="Search documents…" />
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active">All</button>
+    <button class="filter-tab">PDF</button>
+    <button class="filter-tab">Read Online</button>
+    <button class="filter-tab">2024</button>
+    <button class="filter-tab">2023</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="main-grid" id="documents">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Categories</div>
+        <ul class="sidebar-list">
+          <li><a href="#" class="active">All Documents <span class="sidebar-count">34</span></a></li>
+          <li><a href="#">Getting Started <span class="sidebar-count">6</span></a></li>
+          <li><a href="#">Research & Reports <span class="sidebar-count">9</span></a></li>
+          <li><a href="#">How-To Guides <span class="sidebar-count">8</span></a></li>
+          <li><a href="#">Legal & Policy <span class="sidebar-count">5</span></a></li>
+          <li><a href="#">Forms & Templates <span class="sidebar-count">4</span></a></li>
+          <li><a href="#">Archive <span class="sidebar-count">2</span></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">File Type</div>
+        <ul class="sidebar-list">
+          <li><a href="#">PDF Only <span class="sidebar-count">22</span></a></li>
+          <li><a href="#">Read Online <span class="sidebar-count">12</span></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Year</div>
+        <ul class="sidebar-list">
+          <li><a href="#">2025 <span class="sidebar-count">14</span></a></li>
+          <li><a href="#">2024 <span class="sidebar-count">11</span></a></li>
+          <li><a href="#">2023 <span class="sidebar-count">9</span></a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- DOCUMENTS -->
+    <main>
+
+      <!-- GETTING STARTED -->
+      <div class="category-block">
+        <div class="category-label">Getting Started</div>
+        <div class="doc-grid">
+
+          <a href="read.html" class="doc-card doc-type-html">
+            <div class="doc-icon">📄</div>
+            <div class="doc-title">Welcome Guide — Everything You Need to Know</div>
+            <div class="doc-meta">
+              <span class="doc-size">8 min read</span>
+              <span class="doc-badge badge-html">Online</span>
+            </div>
+          </a>
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">📋</div>
+            <div class="doc-title">Quick Start Checklist 2025</div>
+            <div class="doc-meta">
+              <span class="doc-size">245 KB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">📖</div>
+            <div class="doc-title">Glossary of Terms &amp; Definitions</div>
+            <div class="doc-meta">
+              <span class="doc-size">1.2 MB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+          <!-- Featured -->
+          <a href="read.html" class="featured-doc doc-card">
+            <div>
+              <div class="featured-badge">⭐ Featured Document</div>
+              <h3>Annual Resource Report 2025</h3>
+              <p>Full breakdown of the year's key findings, data, and recommendations. Available to read in-browser.</p>
+            </div>
+            <div class="featured-arrow">→</div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- RESEARCH -->
+      <div class="category-block">
+        <div class="category-label">Research &amp; Reports</div>
+        <div class="doc-grid">
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">📊</div>
+            <div class="doc-title">Q3 2025 Industry Analysis Report</div>
+            <div class="doc-meta">
+              <span class="doc-size">3.4 MB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">🔬</div>
+            <div class="doc-title">Field Study: Community Impact 2024</div>
+            <div class="doc-meta">
+              <span class="doc-size">2.1 MB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+          <a href="read.html" class="doc-card doc-type-html">
+            <div class="doc-icon">📑</div>
+            <div class="doc-title">Key Trends Summary — Read Online</div>
+            <div class="doc-meta">
+              <span class="doc-size">6 min read</span>
+              <span class="doc-badge badge-new">New</span>
+            </div>
+          </a>
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">📈</div>
+            <div class="doc-title">5-Year Comparative Data Overview</div>
+            <div class="doc-meta">
+              <span class="doc-size">4.8 MB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- HOW-TO -->
+      <div class="category-block">
+        <div class="category-label">How-To Guides</div>
+        <div class="doc-grid">
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">🛠</div>
+            <div class="doc-title">Step-by-Step Application Process</div>
+            <div class="doc-meta">
+              <span class="doc-size">890 KB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+          <a href="read.html" class="doc-card doc-type-html">
+            <div class="doc-icon">💡</div>
+            <div class="doc-title">How to Submit Your Documents Online</div>
+            <div class="doc-meta">
+              <span class="doc-size">4 min read</span>
+              <span class="doc-badge badge-html">Online</span>
+            </div>
+          </a>
+
+          <a href="#" class="doc-card doc-type-pdf">
+            <div class="doc-icon">📝</div>
+            <div class="doc-title">Frequently Asked Questions (FAQ)</div>
+            <div class="doc-meta">
+              <span class="doc-size">540 KB</span>
+              <span class="doc-badge badge-pdf">PDF</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- MERCH STRIP -->
+<section class="merch-strip" id="merch">
+  <div class="merch-text">
+    <h3>Support the work — Shop the merch</h3>
+    <p>T-shirts, prints, and more. Ships worldwide via our external store.</p>
+  </div>
+  <div class="merch-btns">
+    <a href="#" class="btn btn-primary">Visit Store →</a>
+    <a href="#" class="btn btn-outline" style="color: var(--ink); border-color: var(--border);">Follow on Spotify</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Doc<span>Vault</span></div>
+  <div class="footer-links">
+    <a href="#">Documents</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <a href="#">Privacy</a>
+  </div>
+  <div>© 2025 DocVault. All documents free to use.</div>
+</footer>
+
+<script>
+  // Filter tabs
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Sidebar links
+  document.querySelectorAll('.sidebar-list a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.sidebar-list a').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
